@@ -5,7 +5,7 @@ let port = 3000;
 const swaggerJsdoc = require('swagger-jsdoc')
 const swaggerUi = require('swagger-ui-express')
 const cors = require('cors')
-
+const axios = require('axios')
 const { body, validationResult } = require('express-validator');
 
 //app.use(express.urlencoded())
@@ -37,6 +37,18 @@ const pool = mariadb.createPool({
         database: 'sample',
         port: 3306,
         connectionLimit:5
+});
+
+app.get('/say', (req,res) => {
+    axios.get(`https://faas-nyc1-2ef2e6cc.doserverless.co/api/v1/web/fn-f587cd21-ff1a-4f14-8d4d-1d10e8a82c88/default/hello?keyword=${req.query.keyword}`)
+    .then(result => {
+        res.status(200)
+        res.send(result.data)
+    })
+    .catch(err => {
+        res.status(400)
+        res.send(err)
+    })
 });
 
 /**
