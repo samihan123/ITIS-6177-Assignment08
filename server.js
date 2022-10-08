@@ -39,6 +39,10 @@ const pool = mariadb.createPool({
         connectionLimit:5
 });
 
+app.get('/',(req, res)=>{
+    res.send('digital ocean function created, --> <a href = "http://137.184.159.135:3000/say?keyword=hello">click here</a>');
+});
+
 app.get('/say', (req,res) => {
     axios.get(`https://faas-nyc1-2ef2e6cc.doserverless.co/api/v1/web/fn-f587cd21-ff1a-4f14-8d4d-1d10e8a82c88/default/hello?keyword=${req.query.keyword}`)
     .then(result => {
